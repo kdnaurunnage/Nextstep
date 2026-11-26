@@ -2,7 +2,16 @@
 (function(){
 'use strict';
 const HOST=window.location.hostname;
-const CONF=window.NEXTSTEP_FIREBASE_CONFIG;
+// Use the public web-app config even if an older installed PWA cached the placeholder file.
+const CONF=(window.NEXTSTEP_FIREBASE_CONFIG?.projectId==='nextstep-495f0'
+    ? window.NEXTSTEP_FIREBASE_CONFIG : {
+  apiKey: "AIzaSyB3jdD0pf3QubfFwrFx6H428GDGz7F21FI",
+  authDomain: "nextstep-495f0.firebaseapp.com",
+  projectId: "nextstep-495f0",
+  storageBucket: "nextstep-495f0.firebasestorage.app",
+  messagingSenderId: "474890106238",
+  appId: "1:474890106238:web:30d54e9d8ac78f4c476f2f"
+});
 const MERGE=window.NextStepMerge;
 const B=()=>window.NextStepCloudBridge;
 const VALID=!!(CONF&&CONF.apiKey&&CONF.authDomain&&CONF.projectId&&CONF.appId);
