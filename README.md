@@ -1,9 +1,22 @@
 # NextStep — Engineering Study Tracker
 
-Daily engineering study app with lessons, task carryover, study timers and progress tracking.
+Your daily engineering planner is hosted on [GitHub Pages](https://kdnaurunnage.github.io/Nextstep/).
 
-To publish, open repository **Settings → Pages → Build and deployment**, select **Deploy from branch**, choose **main** and **/(root)**, then **Save**.
+**Learning tracks:** SolidWorks CAD, KiCad mini-projects, PCB tutorials, embedded electronics, control systems, and introductory flight-controller theory.
 
-Planned website: https://kdnaurunnage.github.io/Nextstep/
+## Tablet + PC synchronization
 
-In Chrome on Android, choose **Install app** or **Add to Home Screen**. Study data saves on this device, not across devices automatically. Export backups in Settings.
+The app includes an **optional Firebase cloud-sync integration**. It is not yet active until Firebase is configured.
+
+See **[Cloud Sync Setup](./CLOUD_SYNC_SETUP.md)** for the one-time setup, including the private Firestore security rules. After configuration, sign in with the **same NextStep account** on your tablet and PC. Your task completion, study hours, edited lessons, and settings will synchronize when internet is available. Offline work stays saved on the device and syncs later.
+
+## Data safety
+
+- Your existing progress remains in browser local storage until you sign in.
+- Export a backup from **Settings** before enabling sync.
+- Do not commit Firebase service-account JSON, passwords, or private keys.
+- Sync never writes to ChatGPT Memory or GitHub.
+
+## GitHub Pages publishing
+
+Repository **Settings → Pages** should remain set to **Deploy from branch → main → /(root)**. Changes to main redeploy automatically.
