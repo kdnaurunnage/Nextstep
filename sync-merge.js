@@ -10,7 +10,8 @@ const when=v=>{
 };
 const stamp=x=>Math.max(0,Number(x)||0);
 const keyOrder=o=>Object.keys(obj(o)).sort();
-const json=v=>JSON.stringify(v);
+const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
+const json=v=>JSON.stringify(canonical(v));
 function normalize(state){
  const s=obj(state),m=obj(s.syncMeta),done=obj(s.completed),skip=obj(s.skipped);
  const marks={};
@@ -62,12 +63,12 @@ function merge(one,two){
  }
  const customById=new Map();
  for(const task of [...a.custom,...b.custom])customById.set(String(task.id),task);
- const latestSettings=b.settingsAt>=a.settingsAt?b.settings:a.settings;
+ const latestSettings=(b.settingsAt>a.settingsAt||!Object.keys(a.settings).length)?b.settings:a.settings;
  return {
   version:1,pathV2:2,completed,skipped,overrides,
   notes:{...a.notes,...b.notes},
   logs:[...logsById.values()].sort((x,y)=>(x.date||'').localeCompare(y.date||'')||String(x.id).localeCompare(String(y.id))),
-  custom:[...customById.values()],
+  custom:[...customById.values()].sort((x,y)=>String(x.id).localeCompare(String(y.id))),
   settings:latestSettings,
   syncMeta:{marks,overrideTimes,settingsAt:Math.max(a.settingsAt,b.settingsAt),logDeletes}
  };
