@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nextstep-study-v4';
+const CACHE_NAME = 'nextstep-study-v5';
 const APP_ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_ASSETS)).then(() => self.skipWaiting()));
