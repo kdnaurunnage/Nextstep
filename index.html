@@ -106,6 +106,9 @@ document.addEventListener('submit',e=>{
  if(formId==='customForm'){let cat=d.cat;S.custom.push({id:`custom-${Date.now()}-${Math.random().toString(36).slice(2)}`,category:cat,title:d.title.trim(),url:d.url.trim()||C[cat].source,minutes:Number(d.minutes)||30,note:d.note||'',kind:'practice',verified:true});save();close()}
  if(formId==='settingsForm'){S.settings.slots=Math.min(3,Math.max(1,Number(d.slots)||2));S.settings.dailyMinutes=Math.max(10,Math.min(360,Number(d.dailyMinutes)||90));for(const cat of Object.keys(C))S.settings.enabled[cat]=!!d[`on-${cat}`];S.syncMeta.settingsAt=Date.now();S.plan.date='';save();notice('Preferences saved')}
 render();
+
+});
+document.addEventListener('change',e=>{if(e.target.id==='importfile'){let file=e.target.files?.[0];if(!file)return;file.text().then(txt=>{try{let incoming=JSON.parse(txt);if(incoming.version!==1||!Array.isArray(incoming.logs)||!incoming.settings)throw Error('Not a NextStep backup');if(confirm('Replace this browser’s progress with imported data?')){S={...defaults(),...incoming};save();filter='all';view='today';render();notice('Backup restored')}}catch(e){alert('Import failed: '+e.message)}})}});
 window.NextStepCloudBridge={
   snapshot:()=>JSON.parse(JSON.stringify(S)),
   apply:incoming=>{
@@ -123,8 +126,6 @@ window.NextStepCloudBridge={
     }finally{suppressCloudNotify=false}
   }
 };
-});
-document.addEventListener('change',e=>{if(e.target.id==='importfile'){let file=e.target.files?.[0];if(!file)return;file.text().then(txt=>{try{let incoming=JSON.parse(txt);if(incoming.version!==1||!Array.isArray(incoming.logs)||!incoming.settings)throw Error('Not a NextStep backup');if(confirm('Replace this browser’s progress with imported data?')){S={...defaults(),...incoming};save();filter='all';view='today';render();notice('Backup restored')}}catch(e){alert('Import failed: '+e.message)}})}});
 render();
 </script><script>
 // Progressive Web App shell (no network or account required for study data).
