@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/nextstep/{documentId} {
+      allow read: if request.auth != null
+                  && request.auth.uid == userId
+                  && documentId == "state";
+      allow create, update: if request.auth != null
+                  && request.auth.uid == userId
+                  && documentId == "state"
+                  && request.resource.data.keys().hasOnly(["payload", "schema", "updatedAt"])
+                  && request.resource.data.schema == 1
+                  && request.resource.data.payload is map;
+      allow delete: if false;
+    }
+  }
+}
