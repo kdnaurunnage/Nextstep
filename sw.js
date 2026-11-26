@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nextstep-study-v6';
+const CACHE_NAME = 'nextstep-study-v7';
 const APP_ASSETS = ['./', './index.html', './manifest.webmanifest', './icons/icon.svg', './firebase-config.js', './sync-merge.js', './cloud-sync.js'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_ASSETS)).then(() => self.skipWaiting()));
